@@ -89,7 +89,7 @@ class SearchBox extends Component {
 
     //Retrun selected date when no user activity is found
     getSearchDate() {
-        return 'on ' + this.monthMappings[this.state.startDate.getMonth()] + ' ' + this.state.startDate.getDate() + ' ' + this.state.startDate.getFullYear();
+        return ' on ' + this.monthMappings[this.state.startDate.getMonth()] + ' ' + this.state.startDate.getDate() + ' ' + this.state.startDate.getFullYear();
     }
 
     //Filter activity periods of the user by the date selected by the user
