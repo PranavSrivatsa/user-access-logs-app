@@ -47,6 +47,7 @@ class SearchBox extends Component {
                 var minutes = Math.floor((timeDifferenceInMilliSeconds / (1000 * 60)) % 60);
                 var hours = Math.floor((timeDifferenceInMilliSeconds / (1000 * 60 * 60)) % 24);
                 var days = Math.floor(timeDifferenceInMilliSeconds / (1000 * 60 * 60 * 24));
+                
                 currentContext.props.selectedUser.activity_periods[i].access_duration = minutes.toString(10) + " minute" + (minutes === 1 ? '' : 's');
                 if (hours > 0) {
                     currentContext.props.selectedUser.activity_periods[i].access_duration = hours.toString(10) + " hour" + (hours === 1 ? '' : 's') + ", " + currentContext.props.selectedUser.activity_periods[i].access_duration;

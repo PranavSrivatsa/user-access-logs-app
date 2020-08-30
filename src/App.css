@@ -186,26 +186,30 @@ hr {
 /*Styles for external date picker component*/
 .user-date-picker-container {
   grid-column: 5;
-  font-size: 1.2em;
-  right: 0;
+  width:100%;
+  box-sizing: border-box;
+}
+
+.react-datepicker-wrapper {
+  width: 100%;
 }
 
 .user-date-picker {
-  font-size: 1em;
-  width: 110%;
+  font-size: 1.1em;
   border-radius: 5px;
   border: 2px solid #1d1f25;
   background-color: #272b33;
   padding: 0 10px;
   color: #3ba0ff;
-  height: 40px;
+  height: 50px;
+  box-sizing: border-box;
   text-align: center;
+  width:100%;
 }
 
 .react-datepicker {
   border: 3px solid #1d1f25 !important;
   background-color: #272b33 !important;
-
 }
 
 .react-datepicker__current-month, .react-datepicker__day-name, .react-datepicker__day {
@@ -230,6 +234,9 @@ hr {
 }
 
 .react-datepicker-popper {
-  left: 30px !important;
   background-color: transparent;
+}
+
+.react-datepicker__triangle {
+  left: 50% !important;
 }
