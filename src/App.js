@@ -1,37 +1,62 @@
 import React, { Component } from 'react';
+
+//memoize required to avoid recomputing filtered users on change of state
 import memoize from 'lodash/memoize';
+
 import logo from './logo.svg';
-import Loader from 'react-loader-spinner';
 import './App.css';
+
+//import external component: loader
+import Loader from 'react-loader-spinner';
+
+//User-defined components
 import UserDataTable from './Components/UserDataTable'
 import SearchBox from './Components/SearchBox'
+import UserModal from './Components/UserModal'
 
 class App extends Component {
   constructor(props) {
     super(props);
+    //Initialize main App state
     this.state = {
       loading: true,
       userDetails: [],
-      searchText: ""
+      searchText: "",
+      modalIsOpen: false,
+      selectedUser: {}
     }
   }
 
   componentDidMount() {
     var currentContext = this;
+
+    //Timeout provided purely to give the loader some screen time
     setTimeout(async function () {
-      return await fetch('https://mock-server-user-access-logs.herokuapp.com/')
+
+      //Pure JSON api fetch
+      //Close loader after data fetch
+      return await fetch('https://mock-server-user-access-logs.herokuapp.com/getUserLogs')
         .then(response => response.json())
         .then(data => {
           currentContext.setState({ userDetails: data.members, loading: false })
         })
-    }, 1500);
-
+    }, 800);
   }
 
+  openModal = (user) => {
+    this.setState({ modalIsOpen: true, selectedUser: user });
+  }
+
+  closeModal = () => {
+    this.setState({ modalIsOpen: false });
+  }
+
+  //Update search text on user input
   handleSearchInput = (e) => {
     this.setState({ searchText: e.target.value });
   }
 
+  //Filter users from the database by the search text from the user
   filterUsers(searchText) {
     if (searchText === "") {
       return this.state.userDetails;
@@ -44,31 +69,55 @@ class App extends Component {
     return filteredList;
   }
 
+  //memoize required to avoid recomputing filtered users on change of state.
+  //Replicating Vue.js compute property
   filteredListMemo = memoize(this.filterUsers);
 
   render() {
     return (
       <div className="App">
-        {!this.state.loading ? <div><header className="App-header">
-          <div className="App-title">
-            <p>User Acces Logs</p>
+
+        {/*Modal to display user activity of selected user based on date. Default date set to "Today"*/}
+        <UserModal closeModal={this.closeModal} modalIsOpen={this.state.modalIsOpen} selectedUser={this.state.selectedUser} />
+
+        {/*Display main page after data fetch*/}
+        {!this.state.loading
+          ?
+          <div>
+            {/*Main page header*/}
+            <header className="App-header">
+
+              <div className="App-title">
+                <p>User Acces Logs</p>
+              </div>
+
+              {/*React logo to go with overall React theme*/}
+              <div className="App-logo-container">
+                <img src={logo} className="App-logo" alt="logo" />
+              </div>
+
+            </header>
+
+            {/*Main page body*/}
+            <body className="App-body">
+
+              {/*Search box to filter user entries based on name*/}
+              <SearchBox searchText={this.state.searchText} handleInput={this.handleSearchInput} />
+
+              {/*Data Table to display all (filtered) users sourced from the database along with their ID*/}
+              <UserDataTable userDetails={this.filteredListMemo(this.state.searchText)} openUser={this.openModal} />
+            </body>
           </div>
-          <div className="App-logo-container">
-            <img src={logo} className="App-logo" alt="logo" />
-          </div>
-        </header>
-          <body className="App-body">
-            <SearchBox searchText={this.state.searchText} handleInput={this.handleSearchInput} />
-            <UserDataTable userDetails={this.filteredListMemo(this.state.searchText)} />
-          </body>
-        </div>
-          : <div className="loader">
-              <Loader
-                type="Bars"
-                color="#00BFFF"
-                height={100}
-                width={100}
-              />
+          : 
+          <div className="loader">
+            {/*React loader for added flair*/}
+            {/*Alternative type="Puff"*/}
+            <Loader
+              type="Bars"
+              color="#00BFFF"
+              height={100}
+              width={100}
+            />
           </div>
         }
       </div>
