@@ -47,12 +47,12 @@ class SearchBox extends Component {
                 var minutes = Math.floor((timeDifferenceInMilliSeconds / (1000 * 60)) % 60);
                 var hours = Math.floor((timeDifferenceInMilliSeconds / (1000 * 60 * 60)) % 24);
                 var days = Math.floor(timeDifferenceInMilliSeconds / (1000 * 60 * 60 * 24));
-                currentContext.props.selectedUser.activity_periods[i].access_duration = minutes.toString(10) + " minute" + (minutes == 1 ? '' : 's');
+                currentContext.props.selectedUser.activity_periods[i].access_duration = minutes.toString(10) + " minute" + (minutes === 1 ? '' : 's');
                 if (hours > 0) {
-                    currentContext.props.selectedUser.activity_periods[i].access_duration = hours.toString(10) + " hour" + (hours == 1 ? '' : 's') + ", " + currentContext.props.selectedUser.activity_periods[i].access_duration;
+                    currentContext.props.selectedUser.activity_periods[i].access_duration = hours.toString(10) + " hour" + (hours === 1 ? '' : 's') + ", " + currentContext.props.selectedUser.activity_periods[i].access_duration;
                 }
                 if (days > 0) {
-                    currentContext.props.selectedUser.activity_periods[i].access_duration = days.toString(10) + " day" + (days == 1 ? '' : 's') + ", " + currentContext.props.selectedUser.activity_periods[i].access_duration;
+                    currentContext.props.selectedUser.activity_periods[i].access_duration = days.toString(10) + " day" + (days === 1 ? '' : 's') + ", " + currentContext.props.selectedUser.activity_periods[i].access_duration;
                 }
             }
         }
@@ -157,26 +157,30 @@ class SearchBox extends Component {
 
                 {/*User activity table*/}
                 <table className="access-table">
-                    <tr>
-                        <th>Start Time</th>
-                        <th>End Time</th>
-                        <th>Access Duration</th>
-                    </tr>
-                    {(this.props.modalIsOpen && this.filterDates(this.state.startDate).length) ? this.filterDates(this.state.startDate).map(activity => {
-                        return (
-                            <tr>
-                                <td>{activity.start_time}</td>
-                                <td>{activity.end_time}</td>
-                                <td>{activity.access_duration}</td>
-                            </tr>
-                        )
-                    })
-                        :
-                        //Display for 0 entries
+                    <thead>
                         <tr>
-                            <td colSpan="3">No user activity found{this.props.modalIsOpen && this.getSearchDate()}</td>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Access Duration</th>
                         </tr>
-                    }
+                    </thead>
+                    <tbody>
+                        {(this.props.modalIsOpen && this.filterDates(this.state.startDate).length) ? this.filterDates(this.state.startDate).map(activity => {
+                            return (
+                                <tr>
+                                    <td>{activity.start_time}</td>
+                                    <td>{activity.end_time}</td>
+                                    <td>{activity.access_duration}</td>
+                                </tr>
+                            )
+                        })
+                            :
+                            //Display for 0 entries
+                            <tr>
+                                <td colSpan="3">No user activity found{this.props.modalIsOpen && this.getSearchDate()}</td>
+                            </tr>
+                        }
+                    </tbody>
                 </table>
 
                 <hr className="modal-content-separator" />

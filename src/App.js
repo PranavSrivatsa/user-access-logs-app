@@ -99,14 +99,14 @@ class App extends Component {
             </header>
 
             {/*Main page body*/}
-            <body className="App-body">
+            <div className="App-body">
 
               {/*Search box to filter user entries based on name*/}
               <SearchBox searchText={this.state.searchText} handleInput={this.handleSearchInput} />
 
               {/*Data Table to display all (filtered) users sourced from the database along with their ID*/}
               <UserDataTable userDetails={this.filteredListMemo(this.state.searchText)} openUser={this.openModal} />
-            </body>
+            </div>
           </div>
           : 
           <div className="loader">
