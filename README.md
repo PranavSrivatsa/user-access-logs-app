@@ -5,7 +5,7 @@ https://ui-user-access-logs.herokuapp.com/
 
 ### `Description`
 
-Fetches hard-coded JSON data of users with timestamps from https://mock-server-user-access-logs.herokuapp.com/getUserLogs
+Fetches hard-coded JSON data of users with timestamps from https://mock-server-user-access-logs.herokuapp.com/
 
 React themed web application
 
